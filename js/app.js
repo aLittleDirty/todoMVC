@@ -3,6 +3,7 @@ let app = new Vue({
     data: {
         todoText: '',
         todos: [],
+        readOnlyState:true
         
     },
     computed: {
@@ -39,20 +40,17 @@ let app = new Vue({
             });
             this.todoText = '';
         },
-        //没有让值同步
-        // allDone:function(){
-        //     if(!this.active.length){
-        //         this.todos.forEach(todo => {
-        //                 return;
-        //             todo.completed=false;
-        //         });
-        //     }else{
-        //         this.active.forEach(todo=>{
-        //             todo.completed=true;
-        //         });
-        //     }
-            
-        // }
+        setReadOnly:function(){
+            this.readOnlyState=true;
+        },
+        removeReadOnly:function(event){
+            this.readOnlyState=false;
+            console.log(event.target);
+
+            event.target.onselectstart=function(){
+                return false;
+            }
+        },
     }
 
 })
