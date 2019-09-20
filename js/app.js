@@ -33,11 +33,7 @@ let app = new Vue({
             if(this.todoText==''){
                 return;
             }
-            this.todos.push({
-                id: this.todos.length,
-                title: this.todoText,
-                completed: false
-            });
+            this.todos.push({id: this.todos.length,title: this.todoText,completed: false});
             this.todoText = '';
         },
         setReadOnly:function(){
@@ -51,6 +47,13 @@ let app = new Vue({
                 return false;
             }
         },
+        removeTodo:function(todo){
+            let index=this.todos.indexOf(todo);
+            this.todos.splice(index,1);
+        },
+        removeCompleted:function(){
+            this.todos=this.active;
+        }
     }
 
 })
