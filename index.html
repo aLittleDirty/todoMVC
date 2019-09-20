@@ -8,15 +8,30 @@
     <title>todoMVC</title>
     <link rel="stylesheet" href="css/app.css">
 </head>
+
 <body>
-    <header></header>
-    <section></section>
-    <footer></footer>
+    <div id="todoApp">
+        <header>
+            <h1>todos</h1>
+            <input type="text" v-model="todoText" @keyup.enter="addTodo">
+        </header>
+        <section>
+            <ul>
+                <li v-for="todo in todos">
+                    <input type="checkbox" v-model="todo.completed">
+                    <input type="text" v-model="todo.title">
+                    <button class="btn-delete"></button>
+                </li>
+            </ul>
+        </section>
+        <footer></footer>
+    </div>
+
     <script src="node_modules/director/build/director.js"></script>
     <script src="node_modules/vue/dist/vue.js"></script>
     <script src="js/store.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/routes.js"></script>
+    <script src="js/route.js"></script>
 </body>
 
 </html>
