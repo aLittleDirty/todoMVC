@@ -15,7 +15,7 @@
             <h1>todos</h1>
             <input type="text" v-model="todoText" @keyup.enter="addTodo"/>
         </header>
-        <section>
+        <section v-show="todos.length">
             <input type="checkbox" v-model="allDone">
             <ul>
                 <li v-for="todo in todos">
@@ -24,11 +24,15 @@
                     v-model="todo.title" 
                     :readonly="readOnlyState" 
                     @dblclick="removeReadOnly($event)" @keyup.enter="setReadOnly" @blur="setReadOnly"/>
-                    <button class="btn-delete" @click="removeTodo"></button>
+                    <button class="btn-delete" @click="removeTodo(todo)"></button>
                 </li>
             </ul>
         </section>
-        <footer></footer>
+        <footer v-show="todos.length">
+            <label></label>
+            <ul></ul>
+            <button @click="removeCompleted"></button>
+        </footer>
     </div>
 
     <script src="node_modules/director/build/director.js"></script>
