@@ -13,15 +13,18 @@
     <div id="todoApp">
         <header>
             <h1>todos</h1>
-            <input type="text" v-model="todoText" @keyup.enter="addTodo">
+            <input type="text" v-model="todoText" @keyup.enter="addTodo"/>
         </header>
         <section>
             <input type="checkbox" v-model="allDone">
             <ul>
                 <li v-for="todo in todos">
-                    <input type="checkbox" v-model="todo.completed">
-                    <input type="text" v-model="todo.title" >
-                    <button class="btn-delete"></button>
+                    <input type="checkbox" v-model="todo.completed"/>
+                    <input type="text" 
+                    v-model="todo.title" 
+                    :readonly="readOnlyState" 
+                    @dblclick="removeReadOnly($event)" @keyup.enter="setReadOnly" @blur="setReadOnly"/>
+                    <button class="btn-delete" @click="removeTodo"></button>
                 </li>
             </ul>
         </section>
