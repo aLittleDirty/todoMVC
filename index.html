@@ -18,21 +18,22 @@
         <section v-show="todos.length">
             <input type="checkbox" v-model="allDone">
             <ul>
-                <li v-for="todo in todos">
+                <li v-for="todo in filteredTodos">
                     <div :class="{upperShow:isUpper}">
                         <input type="checkbox" v-model="todo.completed" />
                         <label @dblclick="hideUpper($event,todo)">{{todo.title}}</label>
                         <button class="btn-delete" @click="removeTodo(todo)"></button>
                     </div>
                     <input type="text" class="lowerShow" v-model="todo.title" @keyup.enter="doneEdit(todo)" @blur="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" />
-
                 </li>
             </ul>
         </section>
         <footer v-show="todos.length">
-            <label>{{this.activeTodos.length}} {{plural}} left</label>
+            <label>{{remaining}} {{plural}} left</label>
             <ul>
-                <li></li>
+                <li><a href="#/all">All</a></li>
+                <li><a href="#/active">Active</a></li>
+                <li><a href="#/done">Done</a></li>
             </ul>
             <button @click="removeCompleted"></button>
         </footer>
