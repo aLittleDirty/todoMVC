@@ -13,24 +13,27 @@
     <div id="todoApp">
         <header>
             <h1>todos</h1>
-            <input type="text" v-model="todoText" @keyup.enter="addTodo"/>
+            <input type="text" v-model="todoText" @keyup.enter="addTodo" />
         </header>
         <section v-show="todos.length">
             <input type="checkbox" v-model="allDone">
             <ul>
                 <li v-for="todo in todos">
-                    <input type="checkbox" v-model="todo.completed"/>
-                    <input type="text" 
-                    v-model="todo.title" 
-                    :readonly="readOnlyState" 
-                    @dblclick="removeReadOnly($event)" @keyup.enter="setReadOnly" @blur="setReadOnly"/>
-                    <button class="btn-delete" @click="removeTodo(todo)"></button>
+                    <div :class="{upperShow:isUpper}">
+                        <input type="checkbox" v-model="todo.completed" />
+                        <label @dblclick="hideUpper($event,todo)">{{todo.title}}</label>
+                        <button class="btn-delete" @click="removeTodo(todo)"></button>
+                    </div>
+                    <input type="text" class="lowerShow" v-model="todo.title" @keyup.enter="doneEdit(todo)" @blur="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" />
+
                 </li>
             </ul>
         </section>
         <footer v-show="todos.length">
-            <label></label>
-            <ul></ul>
+            <label>{{this.activeTodos.length}} {{plural}} left</label>
+            <ul>
+                <li></li>
+            </ul>
             <button @click="removeCompleted"></button>
         </footer>
     </div>
