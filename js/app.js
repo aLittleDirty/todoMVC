@@ -3,16 +3,17 @@ let app = new Vue({
     data: {
         todoText: '',
         todos: [],
-        readOnlyState:true
+        isUpper:true,
+        beforeEditCache:''
         
     },
     computed: {
-            active:function(){
+            activeTodos:function(){
                 return this.todos.filter(todo=>{
                     return todo.completed==false;
                 })
             },
-            done:function(){
+            completedTodos:function(){
                 return this.todos.filter(todo=>{
                     return todo.completed==true;
                 })
@@ -26,6 +27,9 @@ let app = new Vue({
                     todo.completed=value;
                 });
             }
+        },
+        plural:function(){
+            return 'item'+(this.activeTodos.length==1?'':'s');
         }
     },
     methods: {
@@ -36,24 +40,33 @@ let app = new Vue({
             this.todos.push({id: this.todos.length,title: this.todoText,completed: false});
             this.todoText = '';
         },
-        setReadOnly:function(){
-            this.readOnlyState=true;
-        },
-        removeReadOnly:function(event){
-            this.readOnlyState=false;
-            console.log(event.target);
-
-            event.target.onselectstart=function(){
-                return false;
-            }
-        },
         removeTodo:function(todo){
             let index=this.todos.indexOf(todo);
             this.todos.splice(index,1);
         },
         removeCompleted:function(){
-            this.todos=this.active;
-        }
+            this.todos=this.activeTodos;
+        },
+        hideUpper:function(event,todo){
+            this.isUpper=false;
+            event.target.parentNode.nextElementSibling.focus();
+            this.beginEdit(todo);
+        },
+        beginEdit:function(todo){
+            this.beforeEditCache=todo.title;
+        },
+        cancelEdit:function(todo){
+            todo.title=this.beforeEditCache;
+            this.beforeEditCache='';
+            event.target.blur();
+        },
+        doneEdit:function(todo){
+            todo.title=todo.title.trim();
+            event.target.blur();
+        },
+        
+
+      
     }
 
 })
