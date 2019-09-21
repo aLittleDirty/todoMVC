@@ -1,72 +1,93 @@
-let app = new Vue({
+(function(exports){
+    var filters={
+        all:function(todos){
+            return todos;
+        },
+        active: function (todos) {
+            return todos.filter(todo=>{
+                return todo.completed == false;
+            });
+        },
+        done: function (todos) {
+            return todos.filter(todo => {
+                return todo.completed == true;
+            });
+        },
+    };
+exports.app = new Vue({
     el: '#todoApp',
     data: {
         todoText: '',
         todos: [],
-        isUpper:true,
-        beforeEditCache:''
-        
+        isUpper: true,
+        beforeEditCache: '',
+        visibility:'all'
+
     },
     computed: {
-            activeTodos:function(){
-                return this.todos.filter(todo=>{
-                    return todo.completed==false;
-                })
-            },
-            completedTodos:function(){
-                return this.todos.filter(todo=>{
-                    return todo.completed==true;
-                })
+        filteredTodos:function(){
+            return filters[this.visibility](this.todos);
         },
-        allDone:{
-            get:function(){
+        remaining:function(){
+            return filters.active(this.todos).length;
+        },
+        allDone: {
+            get: function () {
                 return false;
             },
-            set:function(value){
+            set: function (value) {
                 this.todos.forEach(todo => {
-                    todo.completed=value;
+                    todo.completed = value;
                 });
             }
         },
-        plural:function(){
-            return 'item'+(this.activeTodos.length==1?'':'s');
+        plural: function () {
+            return 'item' + (this.remaining == 1 ? '' : 's');
         }
     },
     methods: {
         addTodo: function () {
-            if(this.todoText==''){
+            if (this.todoText == '') {
                 return;
             }
-            this.todos.push({id: this.todos.length,title: this.todoText,completed: false});
+            this.todos.push({
+                id: this.todos.length,
+                title: this.todoText,
+                completed: false
+            });
             this.todoText = '';
         },
-        removeTodo:function(todo){
-            let index=this.todos.indexOf(todo);
-            this.todos.splice(index,1);
+        removeTodo: function (todo) {
+            let index = this.todos.indexOf(todo);
+            this.todos.splice(index, 1);
         },
-        removeCompleted:function(){
-            this.todos=this.activeTodos;
+        removeCompleted: function () {
+            this.todos = filters.active(this.todos);
         },
-        hideUpper:function(event,todo){
-            this.isUpper=false;
+        hideUpper: function (event, todo) {
+            this.isUpper = false;
             event.target.parentNode.nextElementSibling.focus();
             this.beginEdit(todo);
         },
-        beginEdit:function(todo){
-            this.beforeEditCache=todo.title;
+        beginEdit: function (todo) {
+            this.beforeEditCache = todo.title;
         },
-        cancelEdit:function(todo){
-            todo.title=this.beforeEditCache;
-            this.beforeEditCache='';
+        cancelEdit: function (todo) {
+            todo.title = this.beforeEditCache;
+            this.beforeEditCache = '';
             event.target.blur();
         },
-        doneEdit:function(todo){
-            todo.title=todo.title.trim();
+        doneEdit: function (todo) {
+            todo.title = todo.title.trim();
+            if(todo.title==''){
+                this.removeTodo(todo);
+            };
             event.target.blur();
         },
-        
 
-      
+
+
     }
 
 })
+})(window);
