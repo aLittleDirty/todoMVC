@@ -29,7 +29,7 @@
             </ul>
         </section>
         <footer v-show="todos.length">
-            <label>{{remaining}} {{plural}} left</label>
+            <label>{{remaining}} {{plural('item',remaining)}} left</label>
             <ul>
                 <li><a href="#/all">All</a></li>
                 <li><a href="#/active">Active</a></li>
