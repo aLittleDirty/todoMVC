@@ -18,7 +18,7 @@ exports.app = new Vue({
     el: '#todoApp',
     data: {
         todoText: '',
-        todos: [],
+        todos: todoStorage.get(),
         isUpper: true,
         beforeEditCache: '',
         visibility:'all'
@@ -41,11 +41,18 @@ exports.app = new Vue({
                 });
             }
         },
-        plural: function () {
-            return 'item' + (this.remaining == 1 ? '' : 's');
-        }
+     
+    },
+    watch:{
+        todos:{
+            handler:todoStorage.set,
+            deep:true
+        },
     },
     methods: {
+        plural: function (word,count) {
+            return word + (count == 1 ? '' : 's');
+        },
         addTodo: function () {
             if (this.todoText == '') {
                 return;
