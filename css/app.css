@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+body {
+    height: 100%;
+    background-color: #E5E5E5;
+}
+
+/*设置整个div居中*/
+#todoApp {
+    position: absolute;
+    left: 50%;
+    width: 400px;
+    margin-left: -200px;
+    text-align: center;
+}
+
+#todoApp header h1 {
+    color: #CD5C5C;
+    font-size: 60px;
+    margin-top: 50px;
+    padding: 50px;
+}
+
+#todoApp header .mainInput {
+    padding: 5px 30px 5px 40px;
+    font-size: 25px;
+    border: 1px solid #B0B0B0;
+}
+
+#todoApp section {
+    position: relative;
+    left: 10px;
+    text-align: left;
+}
+
+#todoApp section #allDoneInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 0;
+}
+
+#todoApp section #allDoneInput+label {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: block;
+    top: -42px;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    font-size: 0;
+}
+
+#todoApp section #allDoneInput+label:before {
+    content: "❯";
+    color: #e6e6e6;
+    font-size: 22px;
+    padding: 5px 15px 5px 15px;
+}
+
+#todoApp section #allDoneInput:checked+label:before {
+    color: #737373;
+}
+
+#todoApp section .todo-list {
+    list-style: none;
+}
+
+.todo-list .baseInput {
+    padding: 5px 30px 5px 40px;
+    font-size: 25px;
+    display: none;
+}
+
+.todo-list .coverLabel {
+    position: relative;
+    box-sizing: border-box;
+    width: 380px;
+    background-color: #FFFFFF;
+    border: 1px solid #B0B0B0;
+    border-top: 0;
+    display: block;
+}
+
+#todoApp section li.edit .coverLabel {
+    display: none;
+}
+
+#todoApp section li.edit .baseInput {
+    display: block;
+}
+
+
+
+
+.todo-list .coverLabel .checkInput {
+    position: absolute;
+    /* 垂直居中 */
+    margin: auto 0;
+    top: 0;
+    bottom: 0;
+    /* 水平居中 */
+    text-align: center;
+
+    /* 设置按钮大小 */
+    width: 40px;
+    height: 20px;
+
+    z-index: 1;
+
+    opacity: 0;
+}
+
+.todo-list .coverLabel .checkInput+label {
+    background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.todo-list .coverLabel .checkInput:checked+label {
+    background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
+    text-decoration: line-through;
+    color: #B0B0B0;
+}
+
+
+.todo-list .coverLabel label {
+    position: relative;
+    padding: 5px 30px 5px 40px;
+    display: block;
+    font-size: 25px;
+    word-break: break-all;
+}
+
+.todo-list .coverLabel .btn-delete {
+    position: absolute;
+    /* 垂直居中 */
+    margin: auto 0;
+    top: 0;
+    bottom: 0;
+    /* 设置大小 */
+    width: 20px;
+    height: 20px;
+    /* 设置位置 */
+    right: 10px;
+
+    border: none;
+    background-color: transparent;
+    outline: 0;
+    font-size: 20px;
+    display: none;
+
+
+    color: #cc9a9a;
+}
+
+.todo-list .coverLabel .btn-delete:after {
+    content: "X";
+}
+
+.todo-list .coverLabel:hover .btn-delete {
+    display: block;
+}
+
+#todoApp footer:before {
+    content: "";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+#todoApp footer {
+
+    margin: 0 auto;
+    position: relative;
+    padding: 10px;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    width: 380px;
+    margin-bottom: 200px;
+    border: 1px solid #B0B0B0;
+    border-top: 0;
+}
+
+#todoApp footer #tips {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    font-size: 12px;
+}
+
+#todoApp footer ul {
+    display: flex;
+    list-style: none;
+    position: relative;
+    left: 100px;
+}
+
+#todoApp footer ul li {
+    padding-left: 10px;
+}
+
+#todoApp footer ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+    padding: 3px 5px 3px 5px;
+}
+
+#todoApp footer ul li .selected {
+    border: 1px solid #F08080;
+
+    border-radius: 5px;
+}
+
+#todoApp footer button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    position: absolute;
+    right: 5px;
+    top: 15px;
+}

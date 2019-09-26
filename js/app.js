@@ -19,8 +19,8 @@ exports.app = new Vue({
     data: {
         todoText: '',
         todos: todoStorage.get(),
-        isUpper: true,
         beforeEditCache: '',
+        editedTodo:null,
         visibility:'all'
 
     },
@@ -33,7 +33,7 @@ exports.app = new Vue({
         },
         allDone: {
             get: function () {
-                return false;
+                return this.remaining==0;
             },
             set: function (value) {
                 this.todos.forEach(todo => {
@@ -71,13 +71,11 @@ exports.app = new Vue({
         removeCompleted: function () {
             this.todos = filters.active(this.todos);
         },
-        hideUpper: function (event, todo) {
-            this.isUpper = false;
-            event.target.parentNode.nextElementSibling.focus();
-            this.beginEdit(todo);
-        },
+        
         beginEdit: function (todo) {
             this.beforeEditCache = todo.title;
+            this.editedTodo=todo;
+
         },
         cancelEdit: function (todo) {
             todo.title = this.beforeEditCache;
@@ -85,15 +83,22 @@ exports.app = new Vue({
             event.target.blur();
         },
         doneEdit: function (todo) {
+            if(this.editedTodo==null){
+                return;
+            }
+            this.editedTodo=null;
             todo.title = todo.title.trim();
             if(todo.title==''){
                 this.removeTodo(todo);
             };
-            event.target.blur();
-        },
-
-
-
+        }
+    },
+    directives:{
+        'text-focus':function(el,binding){
+            if(binding.value){
+                el.focus();
+            }
+        }
     }
 
 })
