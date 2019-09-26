@@ -13,29 +13,31 @@
     <div id="todoApp">
         <header>
             <h1>todos</h1>
-            <input type="text" v-model="todoText" @keyup.enter="addTodo" />
+            <input type="text" class="mainInput" v-model="todoText" @keyup.enter="addTodo" />
         </header>
         <section v-show="todos.length">
-            <input type="checkbox" v-model="allDone">
+            <input type="checkbox" id="allDoneInput" v-model="allDone">
+            <label for="allDoneInput">click this label change all todos into completed </label>
             <ul>
-                <li v-for="todo in filteredTodos">
-                    <div :class="{upperShow:isUpper}">
-                        <input type="checkbox" v-model="todo.completed" />
-                        <label @dblclick="hideUpper($event,todo)">{{todo.title}}</label>
+                <li class="todo-list" v-for="todo in filteredTodos" :class="{edit:todo==editedTodo}">
+                    <div class="coverLabel">
+                        <input class="checkInput" type="checkbox" v-model="todo.completed" />
+                        <label @dblclick="beginEdit(todo)">{{todo.title}}</label>
                         <button class="btn-delete" @click="removeTodo(todo)"></button>
                     </div>
-                    <input type="text" class="lowerShow" v-model="todo.title" @keyup.enter="doneEdit(todo)" @blur="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" />
+                    <input v-text-focus="todo==editedTodo" type="text" class="baseInput" v-model="todo.title"
+                        @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" @blur="doneEdit(todo)" />
                 </li>
             </ul>
         </section>
         <footer v-show="todos.length">
-            <label>{{remaining}} {{plural('item',remaining)}} left</label>
+            <label id="tips">{{remaining}} {{plural('item',remaining)}} left</label>
             <ul>
-                <li><a href="#/all">All</a></li>
-                <li><a href="#/active">Active</a></li>
-                <li><a href="#/done">Done</a></li>
+                <li><a href="#/all" :class="{selected:visibility=='all'}">All</a></li>
+                <li><a href="#/active" :class="{selected:visibility=='active'}">Active</a></li>
+                <li><a href="#/done" :class="{selected:visibility=='done'}">Done</a></li>
             </ul>
-            <button @click="removeCompleted"></button>
+            <button v-show="todos.length>remaining" class="btn-removeDone" @click="removeCompleted">deleteDone</button>
         </footer>
     </div>
 
